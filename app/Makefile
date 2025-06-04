@@ -1,4 +1,4 @@
 build:
-	npm run build && npm run dev
+	npm run build
 start:
 	npx start-server -s ./app/dist
