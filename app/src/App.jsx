@@ -3,10 +3,10 @@ import {
   Routes,
   Route,
 } from 'react-router-dom';
-import './App.css'
 import NotFoundPage from './components/NotFoundPage.jsx'
 import LoginPage from './components/LoginPage.jsx'
 import RootPage from './components/RootPage.jsx'
+import './App.css'
 
 function App() {
 return (

@@ -1,3 +1,50 @@
-.greeting {
-    text-align: center;
+.loginCard {
+    margin: 0 auto;
+    margin-top: 100px;
+}
+
+.header-nav {
+    font-weight: 700;
+    font-size: x-large;
+    color: grey;
+}
+
+.header-nav:hover {
+    color: green;
+}
+
+.btn-success:hover {
+    background-color: dodgerblue;
+}
+
+.header-login {
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    font-weight: bold;
+    font-size: xx-large;
+    color: grey;
+}
+
+.container-wiht-img {
+    display: flex;
+    justify-content: space-evenly;
+}
+
+.portal-img {
+    max-width: 250px;
+}
+
+img {
+    height: 100%;
+    width: 100%;
+}
+
+label {
+    color: cadetblue;
+    font-weight: bolder;
+}
+
+.notFoundContainer {
+    display: flex;
+    flex-flow: column;
+    align-items: center;
 }
