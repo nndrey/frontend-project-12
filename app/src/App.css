@@ -48,3 +48,46 @@ label {
     flex-flow: column;
     align-items: center;
 }
+
+.nav-channels {
+    background-color: ghostwhite;
+    border-radius: 5px;
+}
+
+.nav-channels .nav-link {
+    color: black;
+}
+
+.nav-channels .nav-link.active {
+    background-color: gray;
+    color: #fff;
+}
+
+.chat-container {
+    max-height: 90vh;
+    overflow: hidden;
+}
+
+.channels-block {
+    background-color: #f8f9fa;
+    border: 1.5px solid #dee2e6;
+    height: 100%;
+}
+
+.messages-block {
+    display: flex;
+    flex-direction: column;
+    height: 80vh;
+}
+
+.messages-block .input-form {
+    margin-top: auto;
+    padding-top: 20px;
+    border-top: 1px solid #dee2e6;
+}
+
+.messages-block .chat-messages {
+    flex-grow: 1;
+    overflow-y: auto;
+    padding: 10px;
+}
