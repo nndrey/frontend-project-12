@@ -1,15 +1,10 @@
-import 'bootstrap/dist/css/bootstrap.min.css'
-import { StrictMode } from 'react'
-import { createRoot } from 'react-dom/client'
-import { Provider } from 'react-redux'
-import store from './store';
-import './index.css'
-import App from './App.jsx'
+import { createRoot } from 'react-dom/client';
+import init from './app.jsx';
 
-createRoot(document.getElementById('root')).render(
-  <StrictMode>
-    <Provider store={store}>
-      <App />
-    </Provider>
-  </StrictMode>,
-)
+const app = () => {
+  console.log('df')
+  const root = createRoot(document.getElementById('root'));
+  root.render(init());
+};
+
+app();
