@@ -1,52 +1,29 @@
-import { createSlice, createAsyncThunk } from '@reduxjs/toolkit';
-import axios from 'axios';
+import { createSlice, createEntityAdapter } from "@reduxjs/toolkit";
+import { fetchMessages } from "./fetchData";
+import { createSelector } from "reselect";
+import { removeChannel } from "./fetchData";
 
-export const fetchMessages = createAsyncThunk('messages/fetchMessages', async (channelId) => {
-  const token = localStorage.getItem('userId');
-  const parsedToken = JSON.parse(token).token;
-
-  const response = await axios.get(`/api/v1/messages?channelId=${channelId}`, {
-    headers: {
-      Authorization: `Bearer ${parsedToken}`,
-    },
-  });
-  return response.data;
+const messagesAdapter = createEntityAdapter({
+  selectId: (message) => message.id, // Явно указываем id
 });
 
-export const sendMessage = createAsyncThunk('messages/sendMessage', async ({ message, socket }) => {
-  const token = localStorage.getItem('userId');
-  const parsedToken = JSON.parse(token).token;
-
-  const response = await axios.post('/api/v1/messages', message, {
-    headers: {
-      Authorization: `Bearer ${parsedToken}`,
-    },
-  });
-
-  // Отправляем сообщение через WebSocket
-  socket.emit('newMessage', response.data);
-
-  return response.data;
-});
-
-const initialState = {
-  messages: [],
+const initialState = messagesAdapter.getInitialState({
   loading: false,
   error: null,
-};
+});
 
 const messagesSlice = createSlice({
-  name: 'messages',
+  name: "messages",
   initialState,
   reducers: {
-    addMessages: (state, action) => {
-      state.messages.push(...action.payload);
-    },
-    addMessage: (state, action) => {
-      state.messages.push(action.payload);
-    },
-    removeMessagesByChannelId: (state, action) => {
-      state.messages = state.messages.filter((m) => m.channelId !== action.payload);
+    addMessages: messagesAdapter.addMany,
+    addMessage: messagesAdapter.addOne,
+    sendMessage: (state, action) => {
+      const { socket, ...messageData } = action.payload; // Убираем socket из payload
+      messagesAdapter.addOne(state, {
+        id: messageData.id || Date.now().toString(), // Генерируем id, если его нет
+        ...messageData,
+      });
     },
   },
   extraReducers: (builder) => {
@@ -56,16 +33,35 @@ const messagesSlice = createSlice({
         state.error = null;
       })
       .addCase(fetchMessages.fulfilled, (state, action) => {
+        console.log("Reducer received messages:", action.payload);
         state.loading = false;
-        state.messages = action.payload;
+        messagesAdapter.upsertMany(state, action.payload);
       })
       .addCase(fetchMessages.rejected, (state, action) => {
         state.loading = false;
         state.error = action.error.message;
+      })
+      .addCase(removeChannel.fulfilled, (state, { payload }) => {
+        // Удаляем все сообщения, относящиеся к удалённому каналу
+        Object.values(state.entities).forEach((message) => {
+          if (message.channelId === payload) {
+            messagesAdapter.removeOne(state, message.id);
+          }
+        });
       });
-  },
+  }
 });
 
-export const { addMessages, addMessage, removeMessagesByChannelId } = messagesSlice.actions;
+export const { addMessages, addMessage, sendMessage } = messagesSlice.actions;
 export const actions = messagesSlice.actions;
+export const selectors = messagesAdapter.getSelectors((state) => state.messages);
 export default messagesSlice.reducer;
+
+export const customSelectors = {
+  currentChannelMessages: createSelector(
+    [(state) => state.messages.entities, (state) => state.channels.currentChannelId],
+    (messages, currentChannelId) => {
+      return Object.values(messages).filter((msg) => msg.channelId === currentChannelId);
+    }
+  ),
+};

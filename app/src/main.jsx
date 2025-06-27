@@ -1,10 +1,9 @@
 import { createRoot } from 'react-dom/client';
 import init from './app.jsx';
 
-const app = () => {
-  console.log('df')
+const app = async () => {
   const root = createRoot(document.getElementById('root'));
-  root.render(init());
+  root.render(await init());
 };
 
 app();
