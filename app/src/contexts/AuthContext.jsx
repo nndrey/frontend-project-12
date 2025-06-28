@@ -6,11 +6,22 @@ export const AuthProvider = ({ children }) => {
   const [loggedIn, setLoggedIn] = useState(false);
 
   useEffect(() => {
-    const user = localStorage.getItem('userId');
-    setLoggedIn(!!user);
+    try {
+      const user = JSON.parse(localStorage.getItem('userId'));
+      if (user && user.token) {
+        setLoggedIn(true);
+      } else {
+        localStorage.removeItem('userId');
+        setLoggedIn(false);
+      }
+    } catch {
+      localStorage.removeItem('userId');
+      setLoggedIn(false);
+    }
   }, []);
 
-  const logIn = () => {
+  const logIn = (userData) => {
+    localStorage.setItem('userId', JSON.stringify(userData));
     setLoggedIn(true);
   };
 
