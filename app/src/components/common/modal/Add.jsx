@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux';
 import { addChannel, changeChannel } from '../../../slices/channelsSlice';
 import { useTranslation } from 'react-i18next';
 import { toast } from 'react-toastify';
-import FilterContext from '../../../contexts/FilterContext.jsx';
+import FilterContext from '../../../contexts/FilterContext.js';
 
 const Add = ({ show, handleClose }) => {
   const { t } = useTranslation();
@@ -54,8 +54,10 @@ const Add = ({ show, handleClose }) => {
         {({ isSubmitting }) => (
           <FormikForm>
             <Modal.Body>
-              <Form.Group>
-                <Form.Label htmlFor="name">{t('ui.nameChannel')}</Form.Label>
+              <Form.Group controlId="name">
+                <Form.Label className="visually-hidden" htmlFor="name">
+                  {t('ui.nameChannel')}
+                </Form.Label>
                 <Field
                   id="name"
                   name="name"

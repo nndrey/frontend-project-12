@@ -33,9 +33,9 @@ const ru = {
       },
       notify: {
         createdChannel: 'Канал создан',
-        networkError: 'Ошибка соединения',
         removedChannel: 'Канал удалён',
         renamedChannel: 'Канал переименован',
+        networkError: 'Ошибка соединения',
         unauthorized: 'Произошла ошибка при загрузке данных',
       },
       ui: {
@@ -44,6 +44,7 @@ const ru = {
         exist: 'Уже есть аккаунт? ',
         goTo: 'Но вы можете перейти ',
         goToLogin: 'Перейти на страницу входа',
+        haveAccount: 'Уже есть аккаунт?',
         hexletChat: 'Hexlet Chat',
         loadingChannels: 'Загружаем каналы...',
         mainPage: 'на главную страницу',

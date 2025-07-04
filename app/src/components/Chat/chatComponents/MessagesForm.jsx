@@ -1,10 +1,11 @@
 import React, { useState, useEffect, useRef } from "react";
 import { Form, Button, InputGroup } from "react-bootstrap";
 import { useDispatch, useSelector } from "react-redux";
-import { sendMessage } from "../../../slices/messagesSlice";
-import { fetchMessages } from '../../../slices/fetchData';
 import { io } from "socket.io-client";
 import { useTranslation } from "react-i18next";
+import { sendMessage } from "../../../slices/messagesSlice";
+import { fetchMessages } from '../../../slices/fetchData';
+import useUser from '../../../hooks/useUser';
 
 const MessagesForm = () => {
   const { t } = useTranslation();
@@ -14,6 +15,7 @@ const MessagesForm = () => {
   const currentChannelId = useSelector((state) => state.channels.currentChannelId);
   const [socket, setSocket] = useState(null);
   const inputRef = useRef(null);
+  const currentUsername = useUser();
 
   useEffect(() => {
     const newSocket = io();
@@ -41,7 +43,7 @@ const MessagesForm = () => {
       setIsSending(true);
       const newMessage = {
         body: message,
-        username: "Вы",
+        username: currentUsername,
         channelId: currentChannelId
       };
   
@@ -65,26 +67,46 @@ const MessagesForm = () => {
       }
 
       setMessage("");
+      inputRef.current.focus();
     }
   };
 
   return (
-    <Form onSubmit={handleSubmit} className="p-3 border-top">
-      <InputGroup>
-        <Form.Control
-          ref={inputRef}
-          type="text"
-          placeholder={t('fields.inputMessage')}
-          value={message}
-          onChange={(e) => setMessage(e.target.value)}
-          disabled={isSending}
-          aria-label={t('fields.newMessage')}
-        />
-        <Button type="submit" variant="primary" disabled={isSending || !message.trim()}>
-          {isSending ? `${t('buttons.submit')}...` : t('buttons.submit')}
-        </Button>
-      </InputGroup>
-    </Form>
+    <div className="mt-auto px-5 py-3">
+      <Form onSubmit={handleSubmit} className="py-1 border rounded-2">
+        <InputGroup>
+          <Form.Control
+            ref={inputRef}
+            type="text"
+            placeholder={t('fields.inputMessage')}
+            value={message}
+            onChange={(e) => setMessage(e.target.value)}
+            aria-label={t('fields.newMessage')}
+            className="border-0 p-0 ps-2"
+          />
+          <Button
+            type="submit"
+            variant="group-vertical"
+            className="border-0"
+            disabled={isSending || !message.trim()}
+          >
+            <svg
+              xmlns="http://www.w3.org/2000/svg"
+              viewBox="0 0 16 16"
+              width="20"
+              height="20"
+              fill="currentColor"
+            >
+              <path
+                fillRule="evenodd"
+                d="M15 2a1 1 0 0 0-1-1H2a1 1 0 0 0-1 1v12a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V2zM0 2a2 2 0 0 1 2-2h12a2 2 0 0 1 2 2v12a2 2 0 0 1-2 2H2a2 2 0 0 1-2-2V2zm4.5 5.5a.5.5 0 0 0 0 1h5.793l-2.147 2.146a.5.5 0 0 0 .708.708l3-3a.5.5 0 0 0 0-.708l-3-3a.5.5 0 1 0-.708.708L10.293 7.5H4.5z"
+              />
+            </svg>
+            <span className="visually-hidden">{t('buttons.submit')}</span>
+          </Button>
+        </InputGroup>
+      </Form>
+    </div>
   );
 };
 
