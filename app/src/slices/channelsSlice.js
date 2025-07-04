@@ -1,7 +1,9 @@
+/* eslint-disable no-param-reassign */
+
 import { createSlice, createAsyncThunk, createEntityAdapter } from '@reduxjs/toolkit';
 import { createSelector } from 'reselect';
-import { fetchChannels, renameChannel, removeChannel } from './fetchData';
 import axios from 'axios';
+import { fetchChannels, renameChannel, removeChannel } from './fetchData';
 
 export const addChannel = createAsyncThunk('channels/addChannel', async (channel) => {
   const token = localStorage.getItem('userId');
@@ -27,9 +29,8 @@ const channelsSlice = createSlice({
   initialState,
   reducers: {
     setChannels: channelsAdapter.setAll,
-    addChannelDirectly: channelsAdapter.addOne,
-    renameChannelDirectly: channelsAdapter.updateOne,
-    removeChannelDirectly: channelsAdapter.removeOne,
+    addChannel: channelsAdapter.addOne,
+    renameChannel: channelsAdapter.updateOne,
     removeChannel: (state, { payload }) => {
       if (state.currentChannelId === payload) {
         state.currentChannelId = state.ids.length > 0 ? state.ids[0] : null;
@@ -63,7 +64,7 @@ const channelsSlice = createSlice({
       })
       .addCase(removeChannel.fulfilled, (state, { payload }) => {
         if (state.currentChannelId === payload) {
-          state.currentChannelId = "1";
+          state.currentChannelId = state.ids.length > 0 ? state.ids[0] : null;
         }
         channelsAdapter.removeOne(state, payload);
       });
@@ -71,7 +72,7 @@ const channelsSlice = createSlice({
 });
 
 export const { setChannels, changeChannel } = channelsSlice.actions;
-export const actions = channelsSlice.actions;
+export const { actions } = channelsSlice;
 export const selectors = channelsAdapter.getSelectors((state) => state.channels);
 
 export default channelsSlice.reducer;

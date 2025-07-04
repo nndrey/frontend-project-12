@@ -1,29 +1,19 @@
-import React, { useState, useEffect, useRef } from "react";
-import { Form, Button, InputGroup } from "react-bootstrap";
-import { useDispatch, useSelector } from "react-redux";
-import { io } from "socket.io-client";
-import { useTranslation } from "react-i18next";
-import { sendMessage } from "../../../slices/messagesSlice";
+import React, { useState, useEffect, useRef } from 'react';
+import { Form, Button, InputGroup } from 'react-bootstrap';
+import { useDispatch, useSelector } from 'react-redux';
+import { useTranslation } from 'react-i18next';
 import { fetchMessages } from '../../../slices/fetchData';
 import useUser from '../../../hooks/useUser';
+import { sendMessage } from '../../../slices/messagesSlice';
 
 const MessagesForm = () => {
   const { t } = useTranslation();
-  const [message, setMessage] = useState("");
+  const [message, setMessage] = useState('');
   const [isSending, setIsSending] = useState(false);
   const dispatch = useDispatch();
   const currentChannelId = useSelector((state) => state.channels.currentChannelId);
-  const [socket, setSocket] = useState(null);
   const inputRef = useRef(null);
   const currentUsername = useUser();
-
-  useEffect(() => {
-    const newSocket = io();
-    setSocket(newSocket);
-    return () => {
-      newSocket.disconnect();
-    };
-  }, []);
 
   useEffect(() => {
     if (currentChannelId) {
@@ -39,16 +29,16 @@ const MessagesForm = () => {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    if (message.trim() && socket) {
+    if (message.trim()) {
       setIsSending(true);
       const newMessage = {
         body: message,
         username: currentUsername,
-        channelId: currentChannelId
+        channelId: currentChannelId,
       };
-  
+
       try {
-        const token = JSON.parse(localStorage.getItem('userId')).token;
+        const { token } = JSON.parse(localStorage.getItem('userId'));
         const response = await fetch('/api/v1/messages', {
           method: 'POST',
           headers: {
@@ -57,16 +47,16 @@ const MessagesForm = () => {
           },
           body: JSON.stringify(newMessage),
         });
-        
+
         const data = await response.json();
         dispatch(sendMessage(data));
       } catch (error) {
-        console.error("Ошибка при отправке сообщения:", error);
+        console.error('Ошибка при отправке сообщения:', error);
       } finally {
         setIsSending(false);
       }
 
-      setMessage("");
+      setMessage('');
       inputRef.current.focus();
     }
   };

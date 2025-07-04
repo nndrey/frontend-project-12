@@ -1,9 +1,12 @@
-import { createContext, useState, useEffect } from 'react';
+import {
+  createContext, useState, useEffect, useMemo,
+} from 'react';
 
 const AuthContext = createContext({});
 
 export const AuthProvider = ({ children }) => {
   const [loggedIn, setLoggedIn] = useState(false);
+  const [isAuthChecked, setIsAuthChecked] = useState(false);
 
   useEffect(() => {
     try {
@@ -17,6 +20,8 @@ export const AuthProvider = ({ children }) => {
     } catch {
       localStorage.removeItem('userId');
       setLoggedIn(false);
+    } finally {
+      setIsAuthChecked(true);
     }
   }, []);
 
@@ -30,8 +35,12 @@ export const AuthProvider = ({ children }) => {
     setLoggedIn(false);
   };
 
+  const value = useMemo(() => ({
+    loggedIn, logIn, logOut, isAuthChecked,
+  }), [loggedIn, isAuthChecked]);
+
   return (
-    <AuthContext.Provider value={{ loggedIn, logIn, logOut }}>
+    <AuthContext.Provider value={value}>
       {children}
     </AuthContext.Provider>
   );
