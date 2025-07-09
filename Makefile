@@ -1,8 +1,8 @@
 install:
-	npm ci
+	cd app && npm ci
 
 build:
-	npm run build
+	cd app && npm run build
 
 start:
-	npx start-server -s ./app/dist
+	cd app && npx start-server -s ./dist
