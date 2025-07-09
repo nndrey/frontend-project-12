@@ -1,40 +1,40 @@
-import { Form, Button } from 'react-bootstrap';
-import { useState, useRef } from 'react';
-import { useFormik } from 'formik';
-import { useNavigate, Link } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
-import axios from 'axios';
-import useAuth from '../../hooks/useAuth';
-import LogoutButton from '../common/LogoutButton';
-import routes from '../../routes/routes';
-import avatar from '../../assets/avatar-login-page.jpg';
+import { Form, Button } from 'react-bootstrap'
+import { useState, useRef } from 'react'
+import { useFormik } from 'formik'
+import { useNavigate, Link } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
+import axios from 'axios'
+import useAuth from '../../hooks/useAuth'
+import LogoutButton from '../common/LogoutButton'
+import routes from '../../routes/routes'
+import avatar from '../../assets/avatar-login-page.jpg'
 
 const LoginPage = () => {
-  const { t } = useTranslation();
+  const { t } = useTranslation()
   const [authFailed, setAuthFailed] = useState(false);
-  const inputRef = useRef();
-  const navigate = useNavigate();
-  const { loggedIn, logIn } = useAuth();
+  const inputRef = useRef()
+  const navigate = useNavigate()
+  const { loggedIn, logIn } = useAuth()
 
   const formik = useFormik({
     initialValues: { username: '', password: '' },
     onSubmit: async (values, { setSubmitting }) => {
-      setAuthFailed(false);
+      setAuthFailed(false)
       try {
-        const response = await axios.post('/api/v1/login', values);
-        logIn(response.data);
-        navigate('/');
+        const response = await axios.post('/api/v1/login', values)
+        logIn(response.data)
+        navigate('/')
       } catch (error) {
-        setSubmitting(false);
+        setSubmitting(false)
         if (error.response && error.response.status === 401) {
-          setAuthFailed(true);
-          inputRef.current.select();
-          return;
+          setAuthFailed(true)
+          inputRef.current.select()
+          return
         }
-        throw error;
+        throw error
       }
     },
-  });
+  })
 
   return (
     <div className="container-fluid h-100 d-flex align-items-center justify-content-center">
@@ -110,7 +110,7 @@ const LoginPage = () => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default LoginPage;
+export default LoginPage

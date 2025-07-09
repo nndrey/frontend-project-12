@@ -1,19 +1,19 @@
-import React, { useRef, useState } from 'react';
-import { Button, Form, Card } from 'react-bootstrap';
-import { useNavigate } from 'react-router-dom';
-import { useTranslation } from 'react-i18next';
-import { useFormik } from 'formik';
-import * as yup from 'yup';
-import axios from 'axios';
-import useAuth from '../../hooks/useAuth';
-import routes from '../../routes/routes';
-import avatar from '../../assets/avatar-reg-page.jpg';
+import React, { useRef, useState } from 'react'
+import { Button, Form, Card } from 'react-bootstrap'
+import { useNavigate } from 'react-router-dom'
+import { useTranslation } from 'react-i18next'
+import { useFormik } from 'formik'
+import * as yup from 'yup'
+import axios from 'axios'
+import useAuth from '../../hooks/useAuth'
+import routes from '../../routes/routes'
+import avatar from '../../assets/avatar-reg-page.jpg'
 
 const SignUpPage = () => {
-  const { t } = useTranslation();
-  const navigate = useNavigate();
-  const auth = useAuth();
-  const inputRef = useRef(null);
+  const { t } = useTranslation()
+  const navigate = useNavigate()
+  const auth = useAuth()
+  const inputRef = useRef(null)
   const [authFailed, setAuthFailed] = useState(false);
 
   const validationSchema = yup.object().shape({
@@ -60,7 +60,7 @@ const SignUpPage = () => {
         }
       }
     },
-  });
+  })
 
   return (
     <div className="container-fluid h-100 d-flex align-items-center justify-content-center">
@@ -143,7 +143,7 @@ const SignUpPage = () => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default SignUpPage;
+export default SignUpPage

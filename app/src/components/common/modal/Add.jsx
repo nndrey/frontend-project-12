@@ -1,27 +1,27 @@
-import React, { useRef, useEffect, useContext } from 'react';
-import { Modal, Form, Button } from 'react-bootstrap';
+import { useRef, useEffect, useContext } from 'react'
+import { Modal, Form, Button } from 'react-bootstrap'
 import {
   Formik, Field, ErrorMessage, Form as FormikForm,
 } from 'formik';
-import * as Yup from 'yup';
+import * as Yup from 'yup'
 import { useDispatch, useSelector } from 'react-redux';
-import { useTranslation } from 'react-i18next';
-import { toast } from 'react-toastify';
-import { addChannel, changeChannel } from '../../../slices/channelsSlice';
-import FilterContext from '../../../contexts/FilterContext.js';
+import { useTranslation } from 'react-i18next'
+import { toast } from 'react-toastify'
+import { addChannel, changeChannel } from '../../../slices/channelsSlice'
+import FilterContext from '../../../contexts/FilterContext.js'
 
 const Add = ({ show, handleClose }) => {
-  const { t } = useTranslation();
-  const { clean } = useContext(FilterContext);
-  const dispatch = useDispatch();
-  const inputRef = useRef(null);
-  const channels = useSelector((state) => state.channels.entities);
+  const { t } = useTranslation()
+  const { clean } = useContext(FilterContext)
+  const dispatch = useDispatch()
+  const inputRef = useRef(null)
+  const channels = useSelector(state => state.channels.entities)
 
   useEffect(() => {
     if (show && inputRef.current) {
-      inputRef.current.focus();
+      inputRef.current.focus()
     }
-  }, [show]);
+  }, [show])
 
   const validationSchema = Yup.object({
     name: Yup.string()
@@ -29,20 +29,20 @@ const Add = ({ show, handleClose }) => {
       .max(20, t('errors.rangeLetter'))
       .required(t('errors.required'))
       .test('unique', t('errors.notOneOf'), (value) => !Object.values(channels).some((channel) => channel.name === value)),
-  });
+  })
 
   const handleSubmit = async (values, { setSubmitting }) => {
     try {
-      const newChannel = { name: clean(values.name) };
+      const newChannel = { name: clean(values.name) }
       const response = await dispatch(addChannel(newChannel)).unwrap();
-      dispatch(changeChannel(response.id));
-      toast.success(t('notify.createdChannel'));
+      dispatch(changeChannel(response.id))
+      toast.success(t('notify.createdChannel'))
     } catch (error) {
-      console.error('Ошибка добавления канала:', error);
-      toast.error(t('notify.networkError'));
+      console.error('Ошибка добавления канала:', error)
+      toast.error(t('notify.networkError'))
     }
-    setSubmitting(false);
-    handleClose();
+    setSubmitting(false)
+    handleClose()
   };
 
   return (
@@ -80,7 +80,7 @@ const Add = ({ show, handleClose }) => {
         )}
       </Formik>
     </Modal>
-  );
-};
+  )
+}
 
-export default Add;
+export default Add

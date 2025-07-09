@@ -1,27 +1,27 @@
-import { useEffect } from 'react';
-import { useSelector } from 'react-redux';
-import { Container, Row } from 'react-bootstrap';
+import { useEffect } from 'react'
+import { useSelector } from 'react-redux'
+import { Container, Row } from 'react-bootstrap'
 import { toast } from 'react-toastify';
-import { useTranslation } from 'react-i18next';
-import Channels from './chatComponents/Channels';
-import MessagesList from './chatComponents/MessagesList';
-import useAuth from '../../hooks/useAuth';
-import NotFoundPage from '../NotFound/NotFoundPage';
-import { selectors as loadingSelectors, stateLoad } from '../../slices/loadingStateSlice';
+import { useTranslation } from 'react-i18next'
+import Channels from './chatComponents/Channels'
+import MessagesList from './chatComponents/MessagesList'
+import useAuth from '../../hooks/useAuth'
+import NotFoundPage from '../NotFound/NotFoundPage'
+import { selectors as loadingSelectors, stateLoad } from '../../slices/loadingStateSlice'
 
 const ChatPage = () => {
-  const { loggedIn } = useAuth();
-  const status = useSelector(loadingSelectors.getStatus);
-  const { t } = useTranslation();
+  const { loggedIn } = useAuth()
+  const status = useSelector(loadingSelectors.getStatus)
+  const { t } = useTranslation()
 
   useEffect(() => {
     if (status === stateLoad.fail || status === stateLoad.error) {
-      toast.error(t('notify.unauthorized'));
+      toast.error(t('notify.unauthorized'))
     }
-  }, [status, t]);
+  }, [status, t])
 
   if (!loggedIn) {
-    return <NotFoundPage />;
+    return <NotFoundPage />
   }
 
   return (
@@ -31,7 +31,7 @@ const ChatPage = () => {
         <MessagesList />
       </Row>
     </Container>
-  );
-};
+  )
+}
 
-export default ChatPage;
+export default ChatPage

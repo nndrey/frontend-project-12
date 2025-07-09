@@ -4,26 +4,26 @@ import {
 } from 'react-bootstrap';
 import { useSelector, useDispatch } from 'react-redux';
 import { useTranslation } from 'react-i18next';
-import { customSelectors, changeChannel } from '../../../slices/channelsSlice';
-import { actions as modalActions } from '../../../slices/modalSlice';
-import ModalController from '../../common/modal/ModalController';
-import { fetchChannels } from '../../../slices/fetchData';
-import FilterContext from '../../../contexts/FilterContext.js';
+import { customSelectors, changeChannel } from '../../../slices/channelsSlice'
+import { actions as modalActions } from '../../../slices/modalSlice'
+import ModalController from '../../common/modal/ModalController'
+import { fetchChannels } from '../../../slices/fetchData'
+import FilterContext from '../../../contexts/FilterContext.js'
 
 const Channels = () => {
-  const { t } = useTranslation();
-  const { clean } = useContext(FilterContext);
-  const dispatch = useDispatch();
-  const loading = useSelector((state) => state.channels.loading);
-  const error = useSelector((state) => state.channels.error);
-  const channels = useSelector(customSelectors.allChannels);
-  const currentChannelId = useSelector((state) => state.channels.currentChannelId);
+  const { t } = useTranslation()
+  const { clean } = useContext(FilterContext)
+  const dispatch = useDispatch()
+  const loading = useSelector(state => state.channels.loading)
+  const error = useSelector(state => state.channels.error)
+  const channels = useSelector(customSelectors.allChannels)
+  const currentChannelId = useSelector(state => state.channels.currentChannelId)
 
   useEffect(() => {
-    dispatch(fetchChannels());
-  }, [dispatch]);
+    dispatch(fetchChannels())
+  }, [dispatch])
 
-  const isSystemChannel = (channel) => ['general', 'random'].includes(channel.name);
+  const isSystemChannel = channel => ['general', 'random'].includes(channel.name)
 
   return (
     <Col className="col-4 col-md-2 border-end px-0 flex-column h-100 d-flex bg-light">
@@ -52,7 +52,7 @@ const Channels = () => {
 
         {!loading && !error && (
           <ul className="list-unstyled">
-            {channels.map((channel) => (
+            {channels.map(channel => (
               <li key={channel.id} className="nav-item w-100">
                 <div className="d-flex justify-content-between align-items-center">
                   <Button
@@ -95,4 +95,4 @@ const Channels = () => {
   );
 };
 
-export default Channels;
+export default Channels

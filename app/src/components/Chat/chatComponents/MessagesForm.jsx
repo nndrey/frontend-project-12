@@ -1,41 +1,41 @@
-import React, { useState, useEffect, useRef } from 'react';
-import { Form, Button, InputGroup } from 'react-bootstrap';
-import { useDispatch, useSelector } from 'react-redux';
-import { useTranslation } from 'react-i18next';
-import { fetchMessages } from '../../../slices/fetchData';
+import { useState, useEffect, useRef } from 'react'
+import { Form, Button, InputGroup } from 'react-bootstrap'
+import { useDispatch, useSelector } from 'react-redux'
+import { useTranslation } from 'react-i18next'
+import { fetchMessages } from '../../../slices/fetchData'
 import useUser from '../../../hooks/useUser';
-import { sendMessage } from '../../../slices/messagesSlice';
+import { sendMessage } from '../../../slices/messagesSlice'
 
 const MessagesForm = () => {
-  const { t } = useTranslation();
-  const [message, setMessage] = useState('');
-  const [isSending, setIsSending] = useState(false);
-  const dispatch = useDispatch();
-  const currentChannelId = useSelector((state) => state.channels.currentChannelId);
-  const inputRef = useRef(null);
-  const currentUsername = useUser();
+  const { t } = useTranslation()
+  const [message, setMessage] = useState('')
+  const [isSending, setIsSending] = useState(false)
+  const dispatch = useDispatch()
+  const currentChannelId = useSelector(state => state.channels.currentChannelId);
+  const inputRef = useRef(null)
+  const currentUsername = useUser()
 
   useEffect(() => {
     if (currentChannelId) {
-      dispatch(fetchMessages(currentChannelId));
+      dispatch(fetchMessages(currentChannelId))
     }
-  }, [dispatch, currentChannelId]);
+  }, [dispatch, currentChannelId])
 
   useEffect(() => {
     if (inputRef.current) {
-      inputRef.current.focus();
+      inputRef.current.focus()
     }
   }, [currentChannelId]);
 
   const handleSubmit = async (e) => {
-    e.preventDefault();
+    e.preventDefault()
     if (message.trim()) {
-      setIsSending(true);
+      setIsSending(true)
       const newMessage = {
         body: message,
         username: currentUsername,
         channelId: currentChannelId,
-      };
+      }
 
       try {
         const { token } = JSON.parse(localStorage.getItem('userId'));
@@ -43,21 +43,21 @@ const MessagesForm = () => {
           method: 'POST',
           headers: {
             'Content-Type': 'application/json',
-            Authorization: `Bearer ${token}`,
+            'Authorization': `Bearer ${token}`,
           },
           body: JSON.stringify(newMessage),
         });
 
         const data = await response.json();
-        dispatch(sendMessage(data));
+        dispatch(sendMessage(data))
       } catch (error) {
-        console.error('Ошибка при отправке сообщения:', error);
+        console.error('Ошибка при отправке сообщения:', error)
       } finally {
-        setIsSending(false);
+        setIsSending(false)
       }
 
       setMessage('');
-      inputRef.current.focus();
+      inputRef.current.focus()
     }
   };
 
@@ -97,7 +97,7 @@ const MessagesForm = () => {
         </InputGroup>
       </Form>
     </div>
-  );
-};
+  )
+}
 
-export default MessagesForm;
+export default MessagesForm

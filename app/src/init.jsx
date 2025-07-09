@@ -1,58 +1,57 @@
-import React from 'react';
-import { Provider } from 'react-redux';
-import { io } from 'socket.io-client';
-import i18next from 'i18next';
-import { initReactI18next, I18nextProvider } from 'react-i18next';
-import { Provider as RollbarProvider } from '@rollbar/react';
-import leoProfanity from 'leo-profanity';
-import FilterProvider from './providers/FilterProvider.jsx';
-import resources from './locales/index.js';
-import store from './slices/store.js';
-import { AuthProvider } from './contexts/AuthContext.jsx';
-import App from './components/App.jsx';
-import { actions as messagesActions } from './slices/messagesSlice.js';
-import { actions as channelsActions } from './slices/channelsSlice.js';
+import { Provider } from 'react-redux'
+import { io } from 'socket.io-client'
+import i18next from 'i18next'
+import { initReactI18next, I18nextProvider } from 'react-i18next'
+import { Provider as RollbarProvider } from '@rollbar/react'
+import leoProfanity from 'leo-profanity'
+import FilterProvider from './providers/FilterProvider.jsx'
+import resources from './locales/index.js'
+import store from './slices/store.js'
+import { AuthProvider } from './contexts/AuthContext.jsx'
+import App from './components/App.jsx'
+import { actions as messagesActions } from './slices/messagesSlice.js'
+import { actions as channelsActions } from './slices/channelsSlice.js'
 
 const rollbarConfig = {
   accessToken: import.meta.env.VITE_CHAT_APP_ROLLBAR_TOKEN,
   environment: 'production',
-};
+}
 
 const init = async () => {
-  const i18n = i18next.createInstance();
-  const ru = leoProfanity.getDictionary('ru');
-  const en = leoProfanity.getDictionary('en');
-  leoProfanity.addDictionary('cleanWords', [...ru, ...en]);
-  leoProfanity.loadDictionary('cleanWords');
+  const i18n = i18next.createInstance()
+  const ru = leoProfanity.getDictionary('ru')
+  const en = leoProfanity.getDictionary('en')
+  leoProfanity.addDictionary('cleanWords', [...ru, ...en])
+  leoProfanity.loadDictionary('cleanWords')
 
   await i18n.use(initReactI18next).init({
     resources,
     lng: 'ru',
     fallbackLng: 'ru',
     interpolation: { escapeValue: false },
-  });
+  })
 
-  const socket = io();
+  const socket = io()
 
   socket.on('newMessage', (payload) => {
-    store.dispatch(messagesActions.addMessage(payload));
-  });
+    store.dispatch(messagesActions.addMessage(payload))
+  })
 
   socket.on('newChannel', (payload) => {
-    const state = store.getState();
+    const state = store.getState()
     if (!state.channels.entities[payload.id]) {
-      store.dispatch(channelsActions.addChannel(payload));
+      store.dispatch(channelsActions.addChannel(payload))
     }
-  });
+  })
 
   socket.on('renameChannel', (payload) => {
     store.dispatch(channelsActions
-      .renameChannel({ id: payload.id, changes: { name: payload.name } }));
-  });
+      .renameChannel({ id: payload.id, changes: { name: payload.name } }))
+  })
 
   socket.on('removeChannel', (payload) => {
-    store.dispatch(channelsActions.removeChannel(payload.id));
-  });
+    store.dispatch(channelsActions.removeChannel(payload.id))
+  })
 
   return (
     <Provider store={store}>
@@ -66,7 +65,7 @@ const init = async () => {
         </FilterProvider>
       </AuthProvider>
     </Provider>
-  );
-};
+  )
+}
 
-export default init;
+export default init

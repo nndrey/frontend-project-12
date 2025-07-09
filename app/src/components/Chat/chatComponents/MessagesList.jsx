@@ -1,20 +1,20 @@
-import React, { useEffect } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
-import { Col } from 'react-bootstrap';
-import MessagesForm from './MessagesForm';
-import MessagesBody from './MessagesBody';
-import MessagesHeader from './MessagesHeader';
-import { fetchMessages } from '../../../slices/fetchData';
+import { useEffect } from 'react'
+import { useSelector, useDispatch } from 'react-redux'
+import { Col } from 'react-bootstrap'
+import MessagesForm from './MessagesForm'
+import MessagesBody from './MessagesBody'
+import MessagesHeader from './MessagesHeader'
+import { fetchMessages } from '../../../slices/fetchData'
 
 const MessagesList = () => {
-  const dispatch = useDispatch();
-  const currentChannelId = useSelector((state) => state.channels.currentChannelId);
+  const dispatch = useDispatch()
+  const currentChannelId = useSelector((state) => state.channels.currentChannelId)
 
   useEffect(() => {
     if (currentChannelId) {
-      dispatch(fetchMessages(currentChannelId));
+      dispatch(fetchMessages(currentChannelId))
     }
-  }, [dispatch, currentChannelId]);
+  }, [dispatch, currentChannelId])
 
   return (
     <Col className="p-0 h-100">
@@ -24,7 +24,7 @@ const MessagesList = () => {
         <MessagesForm />
       </div>
     </Col>
-  );
-};
+  )
+}
 
-export default MessagesList;
+export default MessagesList
