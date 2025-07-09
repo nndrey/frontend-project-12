@@ -1,5 +1,5 @@
-import Add from './Add';
-import Remove from './Remove';
-import Rename from './Rename';
+import Add from './Add'
+import Remove from './Remove'
+import Rename from './Rename'
 
-export { Add, Remove, Rename };
+export { Add, Remove, Rename }

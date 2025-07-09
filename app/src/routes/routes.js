@@ -4,6 +4,6 @@ const routes = {
   signUpPage: () => '/signup',
   notFoundPage: () => '*',
   signupPath: () => '/api/v1/signup',
-};
+}
 
-export default routes;
+export default routes

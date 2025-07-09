@@ -1,8 +1,8 @@
-import { configureStore } from '@reduxjs/toolkit';
-import channelsReducer from './channelsSlice';
-import messagesReducer from './messagesSlice';
-import modalReducer from './modalSlice';
-import loadingStateReducer from './loadingStateSlice';
+import { configureStore } from '@reduxjs/toolkit'
+import channelsReducer from './channelsSlice'
+import messagesReducer from './messagesSlice'
+import modalReducer from './modalSlice'
+import loadingStateReducer from './loadingStateSlice'
 
 const store = configureStore({
   reducer: {
@@ -11,6 +11,6 @@ const store = configureStore({
     modal: modalReducer,
     loadingState: loadingStateReducer,
   },
-});
+})
 
-export default store;
+export default store

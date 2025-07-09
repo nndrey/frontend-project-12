@@ -1,7 +1,7 @@
-import { createContext } from 'react';
+import { createContext } from 'react'
 
 const FilterContext = createContext({
-  clean: (text) => text,
-});
+  clean: text => text,
+})
 
-export default FilterContext;
+export default FilterContext
