@@ -37,7 +37,7 @@ const Add = ({ show, handleClose }) => {
       const response = await dispatch(addChannel(newChannel)).unwrap()
       dispatch(changeChannel(response.id))
       toast.success(t('notify.createdChannel'))
-    } 
+    }
     catch (error) {
       console.error('Ошибка добавления канала:', error)
       toast.error(t('notify.networkError'))

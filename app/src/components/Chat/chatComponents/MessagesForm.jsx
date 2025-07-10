@@ -50,10 +50,10 @@ const MessagesForm = () => {
 
         const data = await response.json()
         dispatch(sendMessage(data))
-      } 
+      }
       catch (error) {
         console.error('Ошибка при отправке сообщения:', error)
-      } 
+      }
       finally {
         setIsSending(false)
       }

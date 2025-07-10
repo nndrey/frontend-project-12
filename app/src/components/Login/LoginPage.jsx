@@ -24,7 +24,7 @@ const LoginPage = () => {
         const response = await axios.post('/api/v1/login', values)
         logIn(response.data)
         navigate('/')
-      } 
+      }
       catch (error) {
         setSubmitting(false)
         if (error.response && error.response.status === 401) {
@@ -48,58 +48,58 @@ const LoginPage = () => {
               </div>
               <div className="col-md-6">
                 <h1 className="text-center mb-4">{t('buttons.logIn')}</h1>
-                {loggedIn 
-                    ? (
-                  <LogoutButton />
-                    ) 
-                    : (
-                  <Form onSubmit={formik.handleSubmit} className="w-100">
-                    <div className="form-floating mb-3">
-                      <Form.Control
-                        type="text"
-                        name="username"
-                        id="username"
-                        placeholder={t('fields.username')}
-                        autoComplete="username"
-                        ref={inputRef}
-                        onChange={formik.handleChange}
-                        value={formik.values.username}
-                        isInvalid={authFailed}
-                        required
-                      />
-                      <Form.Label htmlFor="username">{t('fields.nickname')}</Form.Label>
-                    </div>
-
-                    <div className="form-floating mb-4">
-                      <Form.Control
-                        type="password"
-                        name="password"
-                        id="password"
-                        placeholder={t('fields.password')}
-                        autoComplete="current-password"
-                        onChange={formik.handleChange}
-                        value={formik.values.password}
-                        isInvalid={authFailed}
-                        required
-                      />
-                      <Form.Label htmlFor="password">{t('fields.password')}</Form.Label>
-                      {authFailed && (
-                        <div className="invalid-feedback d-block">
-                          {t('errors.incorrect')}
+                {loggedIn
+                  ? (
+                      <LogoutButton />
+                    )
+                  : (
+                      <Form onSubmit={formik.handleSubmit} className="w-100">
+                        <div className="form-floating mb-3">
+                          <Form.Control
+                            type="text"
+                            name="username"
+                            id="username"
+                            placeholder={t('fields.username')}
+                            autoComplete="username"
+                            ref={inputRef}
+                            onChange={formik.handleChange}
+                            value={formik.values.username}
+                            isInvalid={authFailed}
+                            required
+                          />
+                          <Form.Label htmlFor="username">{t('fields.nickname')}</Form.Label>
                         </div>
-                      )}
-                    </div>
 
-                    <Button
-                      type="submit"
-                      variant="outline-primary"
-                      className="w-100"
-                      disabled={formik.isSubmitting}
-                    >
-                      {formik.isSubmitting ? `${t('buttons.logIn')}...` : t('buttons.logIn')}
-                    </Button>
-                  </Form>
-                )}
+                        <div className="form-floating mb-4">
+                          <Form.Control
+                            type="password"
+                            name="password"
+                            id="password"
+                            placeholder={t('fields.password')}
+                            autoComplete="current-password"
+                            onChange={formik.handleChange}
+                            value={formik.values.password}
+                            isInvalid={authFailed}
+                            required
+                          />
+                          <Form.Label htmlFor="password">{t('fields.password')}</Form.Label>
+                          {authFailed && (
+                            <div className="invalid-feedback d-block">
+                              {t('errors.incorrect')}
+                            </div>
+                          )}
+                        </div>
+
+                        <Button
+                          type="submit"
+                          variant="outline-primary"
+                          className="w-100"
+                          disabled={formik.isSubmitting}
+                        >
+                          {formik.isSubmitting ? `${t('buttons.logIn')}...` : t('buttons.logIn')}
+                        </Button>
+                      </Form>
+                    )}
               </div>
             </div>
             <div className="card-footer p-4">

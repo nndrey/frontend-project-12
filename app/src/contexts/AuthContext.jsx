@@ -12,16 +12,16 @@ export const AuthProvider = ({ children }) => {
       const user = JSON.parse(localStorage.getItem('userId'))
       if (user && user.token) {
         setLoggedIn(true)
-      } 
+      }
       else {
         localStorage.removeItem('userId')
         setLoggedIn(false)
       }
-    } 
+    }
     catch {
       localStorage.removeItem('userId')
       setLoggedIn(false)
-    } 
+    }
     finally {
       setIsAuthChecked(true)
     }

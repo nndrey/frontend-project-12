@@ -17,11 +17,11 @@ const Remove = ({ show, handleClose, channel }) => {
         await dispatch(removeChannel(channel.id)).unwrap()
         toast.success(t('notify.removedChannel'))
         handleClose()
-      } 
+      }
       catch (error) {
         console.error('Ошибка удаления канала:', error)
         toast.error(t('notify.networkError'))
-      } 
+      }
       finally {
         setIsDeleting(false)
       }

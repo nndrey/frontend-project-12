@@ -51,7 +51,7 @@ const SignUpPage = () => {
         })
         auth.logIn(response.data)
         navigate(routes.chatPage())
-      } 
+      }
       catch (err) {
         console.error('Ошибка при регистрации:', err)
         formik.setSubmitting(false)

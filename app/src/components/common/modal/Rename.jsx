@@ -35,14 +35,14 @@ const Rename = ({ show, handleClose, channel }) => {
         await dispatch(renameChannel({ id: channel.id, name: values.name })).unwrap()
         toast.success(t('notify.renamedChannel'))
         handleClose()
-      } 
+      }
       catch (error) {
         console.error('Ошибка при переименовании канала:', error)
         toast.error(t('notify.networkError'))
       }
       setSubmitting(false)
     }
-  };
+  }
 
   return (
     <Modal show={show} onHide={handleClose} centered>
