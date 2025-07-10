@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import { useSelector } from 'react-redux'
 import { Container, Row } from 'react-bootstrap'
-import { toast } from 'react-toastify';
+import { toast } from 'react-toastify'
 import { useTranslation } from 'react-i18next'
 import Channels from './chatComponents/Channels'
 import MessagesList from './chatComponents/MessagesList'

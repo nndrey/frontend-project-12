@@ -3,7 +3,7 @@ import { Form, Button, InputGroup } from 'react-bootstrap'
 import { useDispatch, useSelector } from 'react-redux'
 import { useTranslation } from 'react-i18next'
 import { fetchMessages } from '../../../slices/fetchData'
-import useUser from '../../../hooks/useUser';
+import useUser from '../../../hooks/useUser'
 import { sendMessage } from '../../../slices/messagesSlice'
 
 const MessagesForm = () => {
@@ -11,7 +11,7 @@ const MessagesForm = () => {
   const [message, setMessage] = useState('')
   const [isSending, setIsSending] = useState(false)
   const dispatch = useDispatch()
-  const currentChannelId = useSelector(state => state.channels.currentChannelId);
+  const currentChannelId = useSelector(state => state.channels.currentChannelId)
   const inputRef = useRef(null)
   const currentUsername = useUser()
 
@@ -25,7 +25,7 @@ const MessagesForm = () => {
     if (inputRef.current) {
       inputRef.current.focus()
     }
-  }, [currentChannelId]);
+  }, [currentChannelId])
 
   const handleSubmit = async (e) => {
     e.preventDefault()
@@ -38,7 +38,7 @@ const MessagesForm = () => {
       }
 
       try {
-        const { token } = JSON.parse(localStorage.getItem('userId'));
+        const { token } = JSON.parse(localStorage.getItem('userId'))
         const response = await fetch('/api/v1/messages', {
           method: 'POST',
           headers: {
@@ -46,20 +46,22 @@ const MessagesForm = () => {
             'Authorization': `Bearer ${token}`,
           },
           body: JSON.stringify(newMessage),
-        });
+        })
 
-        const data = await response.json();
+        const data = await response.json()
         dispatch(sendMessage(data))
-      } catch (error) {
+      } 
+      catch (error) {
         console.error('Ошибка при отправке сообщения:', error)
-      } finally {
+      } 
+      finally {
         setIsSending(false)
       }
 
-      setMessage('');
+      setMessage('')
       inputRef.current.focus()
     }
-  };
+  }
 
   return (
     <div className="mt-auto px-5 py-3">
@@ -70,7 +72,7 @@ const MessagesForm = () => {
             type="text"
             placeholder={t('fields.inputMessage')}
             value={message}
-            onChange={(e) => setMessage(e.target.value)}
+            onChange={e => setMessage(e.target.value)}
             aria-label={t('fields.newMessage')}
             className="border-0 p-0 ps-2"
           />

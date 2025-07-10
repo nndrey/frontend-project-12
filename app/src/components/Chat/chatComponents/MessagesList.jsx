@@ -8,7 +8,7 @@ import { fetchMessages } from '../../../slices/fetchData'
 
 const MessagesList = () => {
   const dispatch = useDispatch()
-  const currentChannelId = useSelector((state) => state.channels.currentChannelId)
+  const currentChannelId = useSelector(state => state.channels.currentChannelId)
 
   useEffect(() => {
     if (currentChannelId) {

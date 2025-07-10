@@ -3,7 +3,7 @@ import { useTranslation } from 'react-i18next'
 import { useSelector } from 'react-redux'
 import { customSelectors } from '../../../slices/channelsSlice'
 import FilterContext from '../../../contexts/FilterContext.js'
-import { customSelectors as messagesSelectors } from '../../../slices/messagesSlice';
+import { customSelectors as messagesSelectors } from '../../../slices/messagesSlice'
 
 const MessagesHeader = () => {
   const { t } = useTranslation()

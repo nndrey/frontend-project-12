@@ -1,9 +1,9 @@
-import React, { useEffect, useContext } from 'react';
+import { useEffect, useContext } from 'react'
 import {
   Button, Col, Dropdown, ButtonGroup,
-} from 'react-bootstrap';
-import { useSelector, useDispatch } from 'react-redux';
-import { useTranslation } from 'react-i18next';
+} from 'react-bootstrap'
+import { useSelector, useDispatch } from 'react-redux'
+import { useTranslation } from 'react-i18next'
 import { customSelectors, changeChannel } from '../../../slices/channelsSlice'
 import { actions as modalActions } from '../../../slices/modalSlice'
 import ModalController from '../../common/modal/ModalController'
@@ -92,7 +92,7 @@ const Channels = () => {
       </div>
       <ModalController handleClose={() => dispatch(modalActions.close())} />
     </Col>
-  );
-};
+  )
+}
 
 export default Channels

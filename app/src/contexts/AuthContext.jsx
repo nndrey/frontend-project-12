@@ -3,37 +3,39 @@ import {
 } from 'react'
 
 const AuthContext = createContext({})
-const b = 5
 export const AuthProvider = ({ children }) => {
   const [loggedIn, setLoggedIn] = useState(false)
   const [isAuthChecked, setIsAuthChecked] = useState(false)
 
   useEffect(() => {
     try {
-      const user = JSON.parse(localStorage.getItem('userId'));
+      const user = JSON.parse(localStorage.getItem('userId'))
       if (user && user.token) {
-        setLoggedIn(true);
-      } else {
+        setLoggedIn(true)
+      } 
+      else {
         localStorage.removeItem('userId')
         setLoggedIn(false)
       }
-    } catch {
+    } 
+    catch {
       localStorage.removeItem('userId')
       setLoggedIn(false)
-    } finally {
+    } 
+    finally {
       setIsAuthChecked(true)
     }
-  }, []);
+  }, [])
 
   const logIn = (userData) => {
     localStorage.setItem('userId', JSON.stringify(userData))
     setLoggedIn(true)
-  };
+  }
 
   const logOut = () => {
     localStorage.removeItem('userId')
     setLoggedIn(false)
-  };
+  }
 
   const value = useMemo(() => ({
     loggedIn, logIn, logOut, isAuthChecked,

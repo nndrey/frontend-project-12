@@ -1,45 +1,46 @@
-import React, { useRef, useEffect, useContext } from 'react';
-import { Modal, Form, Button } from 'react-bootstrap';
+import { useRef, useEffect, useContext } from 'react'
+import { Modal, Form, Button } from 'react-bootstrap'
 import {
   Formik, Field, ErrorMessage, Form as FormikForm,
-} from 'formik';
-import * as Yup from 'yup';
-import { useDispatch } from 'react-redux';
-import { useTranslation } from 'react-i18next';
-import { toast } from 'react-toastify';
-import { renameChannel } from '../../../slices/fetchData';
-import FilterContext from '../../../contexts/FilterContext.js';
+} from 'formik'
+import * as Yup from 'yup'
+import { useDispatch } from 'react-redux'
+import { useTranslation } from 'react-i18next'
+import { toast } from 'react-toastify'
+import { renameChannel } from '../../../slices/fetchData'
+import FilterContext from '../../../contexts/FilterContext.js'
 
 const Rename = ({ show, handleClose, channel }) => {
-  const { t } = useTranslation();
-  const dispatch = useDispatch();
-  const inputRef = useRef(null);
-  const { clean } = useContext(FilterContext);
+  const { t } = useTranslation()
+  const dispatch = useDispatch()
+  const inputRef = useRef(null)
+  const { clean } = useContext(FilterContext)
 
   useEffect(() => {
     if (show && inputRef.current) {
-      inputRef.current.focus();
+      inputRef.current.focus()
     }
-  }, [show]);
+  }, [show])
 
   const validationSchema = Yup.object({
     name: Yup.string()
       .min(3, t('errors.rangeLetter'))
       .max(20, t('errors.rangeLetter'))
       .required(t('errors.required')),
-  });
+  })
 
   const handleSubmit = async (values, { setSubmitting }) => {
     if (channel) {
       try {
-        await dispatch(renameChannel({ id: channel.id, name: values.name })).unwrap();
-        toast.success(t('notify.renamedChannel'));
-        handleClose();
-      } catch (error) {
-        console.error('Ошибка при переименовании канала:', error);
-        toast.error(t('notify.networkError'));
+        await dispatch(renameChannel({ id: channel.id, name: values.name })).unwrap()
+        toast.success(t('notify.renamedChannel'))
+        handleClose()
+      } 
+      catch (error) {
+        console.error('Ошибка при переименовании канала:', error)
+        toast.error(t('notify.networkError'))
       }
-      setSubmitting(false);
+      setSubmitting(false)
     }
   };
 
@@ -82,7 +83,7 @@ const Rename = ({ show, handleClose, channel }) => {
         )}
       </Formik>
     </Modal>
-  );
-};
+  )
+}
 
-export default Rename;
+export default Rename

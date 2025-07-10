@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react'
+import { useRef, useState } from 'react'
 import { Button, Form, Card } from 'react-bootstrap'
 import { useNavigate } from 'react-router-dom'
 import { useTranslation } from 'react-i18next'
@@ -14,7 +14,7 @@ const SignUpPage = () => {
   const navigate = useNavigate()
   const auth = useAuth()
   const inputRef = useRef(null)
-  const [authFailed, setAuthFailed] = useState(false);
+  const [authFailed, setAuthFailed] = useState(false)
 
   const validationSchema = yup.object().shape({
     username: yup
@@ -30,7 +30,7 @@ const SignUpPage = () => {
       .string()
       .oneOf([yup.ref('password'), null], t('errors.checkPassword'))
       .required(t('errors.required')),
-  });
+  })
 
   const formik = useFormik({
     initialValues: {
@@ -42,21 +42,22 @@ const SignUpPage = () => {
     validateOnBlur: false,
     validateOnChange: false,
     onSubmit: async (values) => {
-      setAuthFailed(false);
-      formik.setSubmitting(true);
+      setAuthFailed(false)
+      formik.setSubmitting(true)
       try {
         const response = await axios.post(routes.signupPath(), {
           username: values.username,
           password: values.password,
-        });
-        auth.logIn(response.data);
-        navigate(routes.chatPage());
-      } catch (err) {
-        console.error('Ошибка при регистрации:', err);
-        formik.setSubmitting(false);
+        })
+        auth.logIn(response.data)
+        navigate(routes.chatPage())
+      } 
+      catch (err) {
+        console.error('Ошибка при регистрации:', err)
+        formik.setSubmitting(false)
         if (err.response?.status === 409) {
-          setAuthFailed(true);
-          inputRef.current.select();
+          setAuthFailed(true)
+          inputRef.current.select()
         }
       }
     },

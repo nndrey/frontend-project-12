@@ -33,6 +33,6 @@ const App = () => (
       <ToastContainer />
     </Router>
   </ErrorBoundary>
-);
+)
 
 export default App

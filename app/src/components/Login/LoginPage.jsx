@@ -11,7 +11,7 @@ import avatar from '../../assets/avatar-login-page.jpg'
 
 const LoginPage = () => {
   const { t } = useTranslation()
-  const [authFailed, setAuthFailed] = useState(false);
+  const [authFailed, setAuthFailed] = useState(false)
   const inputRef = useRef()
   const navigate = useNavigate()
   const { loggedIn, logIn } = useAuth()
@@ -24,7 +24,8 @@ const LoginPage = () => {
         const response = await axios.post('/api/v1/login', values)
         logIn(response.data)
         navigate('/')
-      } catch (error) {
+      } 
+      catch (error) {
         setSubmitting(false)
         if (error.response && error.response.status === 401) {
           setAuthFailed(true)
@@ -47,9 +48,11 @@ const LoginPage = () => {
               </div>
               <div className="col-md-6">
                 <h1 className="text-center mb-4">{t('buttons.logIn')}</h1>
-                {loggedIn ? (
+                {loggedIn 
+                    ? (
                   <LogoutButton />
-                ) : (
+                    ) 
+                    : (
                   <Form onSubmit={formik.handleSubmit} className="w-100">
                     <div className="form-floating mb-3">
                       <Form.Control
