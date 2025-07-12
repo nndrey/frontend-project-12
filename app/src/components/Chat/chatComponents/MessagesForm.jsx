@@ -75,6 +75,7 @@ const MessagesForm = () => {
             onChange={e => setMessage(e.target.value)}
             aria-label={t('fields.newMessage')}
             className="border-0 p-0 ps-2"
+            autoComplete="off"
           />
           <Button
             type="submit"

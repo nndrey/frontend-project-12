@@ -10,15 +10,16 @@ import NotFoundPage from '../NotFound/NotFoundPage'
 import { selectors as loadingSelectors, stateLoad } from '../../slices/loadingStateSlice'
 
 const ChatPage = () => {
-  const { loggedIn } = useAuth()
+  const { loggedIn, logOut } = useAuth()
   const status = useSelector(loadingSelectors.getStatus)
   const { t } = useTranslation()
 
-  useEffect(() => {
-    if (status === stateLoad.fail || status === stateLoad.error) {
-      toast.error(t('notify.unauthorized'))
-    }
-  }, [status, t])
+useEffect(() => {
+  if (status === stateLoad.fail || status === stateLoad.error) {
+    toast.error(t('notify.unauthorized'))
+    logOut()
+  }
+}, [status, t, logOut])
 
   if (!loggedIn) {
     return <NotFoundPage />
