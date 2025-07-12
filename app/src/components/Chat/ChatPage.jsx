@@ -14,12 +14,12 @@ const ChatPage = () => {
   const status = useSelector(loadingSelectors.getStatus)
   const { t } = useTranslation()
 
-useEffect(() => {
-  if (status === stateLoad.fail || status === stateLoad.error) {
-    toast.error(t('notify.unauthorized'))
-    logOut()
-  }
-}, [status, t, logOut])
+  useEffect(() => {
+    if (status === stateLoad.fail || status === stateLoad.error) {
+      toast.error(t('notify.unauthorized'))
+      logOut()
+    }
+  }, [status, t, logOut])
 
   if (!loggedIn) {
     return <NotFoundPage />

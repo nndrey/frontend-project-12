@@ -8,7 +8,7 @@ const MessagesBody = () => {
   const { clean } = useContext(FilterContext)
   const messagesEndRef = useRef(null)
 
-    useEffect(() => {
+  useEffect(() => {
     if (messagesEndRef.current) {
       messagesEndRef.current.scrollIntoView({ behavior: 'smooth' })
     }
