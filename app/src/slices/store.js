@@ -1,16 +1,18 @@
 import { configureStore } from '@reduxjs/toolkit'
-import channelsReducer from './channelsSlice'
-import messagesReducer from './messagesSlice'
-import modalReducer from './modalSlice'
-import loadingStateReducer from './loadingStateSlice'
+import { channelsApi } from './channelsApi.js'
+import { messagesApi } from './messagesApi.js'
+import ui from './uiSlice.js'
+import authSlice from './authSlice.js'
 
-const store = configureStore({
+const createStore = () => configureStore({
   reducer: {
-    channels: channelsReducer,
-    messages: messagesReducer,
-    modal: modalReducer,
-    loadingState: loadingStateReducer,
+    ui,
+    auth: authSlice,
+    [channelsApi.reducerPath]: channelsApi.reducer,
+    [messagesApi.reducerPath]: messagesApi.reducer,
   },
+  middleware: getDefaultMiddleware => getDefaultMiddleware()
+    .concat(channelsApi.middleware).concat(messagesApi.middleware),
 })
 
-export default store
+export default createStore
