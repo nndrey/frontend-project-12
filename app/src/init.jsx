@@ -1,71 +1,45 @@
-import { Provider } from 'react-redux'
-import { io } from 'socket.io-client'
-import i18next from 'i18next'
-import { initReactI18next, I18nextProvider } from 'react-i18next'
-import { Provider as RollbarProvider } from '@rollbar/react'
-import leoProfanity from 'leo-profanity'
-import FilterProvider from './providers/FilterProvider.jsx'
-import resources from './locales/index.js'
-import store from './slices/store.js'
-import { AuthProvider } from './contexts/AuthContext.jsx'
-import App from './components/App.jsx'
-import { actions as messagesActions } from './slices/messagesSlice.js'
-import { actions as channelsActions } from './slices/channelsSlice.js'
-
-const rollbarConfig = {
-  accessToken: import.meta.env.VITE_CHAT_APP_ROLLBAR_TOKEN,
-  environment: 'production',
-}
+import filter from 'leo-profanity'
+import io from 'socket.io-client'
+import startI18n from './locale/i18next.js'
+import routes from './routes.js'
+import createStore from './redux/store/index.js'
+import { channelsApi } from './redux/store/channelsApi.js'
+import { messagesApi } from './redux/store/messagesApi.js'
+import { login } from './redux/store/authSlice.js'
+import App from './App.jsx'
 
 const init = async () => {
-  const i18n = i18next.createInstance()
-  const ru = leoProfanity.getDictionary('ru')
-  const en = leoProfanity.getDictionary('en')
-  leoProfanity.addDictionary('cleanWords', [...ru, ...en])
-  leoProfanity.loadDictionary('cleanWords')
+  filter.loadDictionary('ru')
+  filter.loadDictionary('en')
+  await startI18n();
+  const store = createStore()
+  const socket = io(routes.appUrl())
 
-  await i18n.use(initReactI18next).init({
-    resources,
-    lng: 'ru',
-    fallbackLng: 'ru',
-    interpolation: { escapeValue: false },
-  })
+  const userData = JSON.parse(localStorage.getItem('user'))
 
-  const socket = io()
-
-  socket.on('newMessage', (payload) => {
-    store.dispatch(messagesActions.addMessage(payload))
-  })
+  if (userData) {
+    store.dispatch(login({ token: userData.token, username: userData.username }))
+  }
 
   socket.on('newChannel', (payload) => {
-    const state = store.getState()
-    if (!state.channels.entities[payload.id]) {
-      store.dispatch(channelsActions.addChannel(payload))
-    }
+    store.dispatch(channelsApi.util.updateQueryData('getChannels', undefined, (draft) => [...draft, payload]))
   })
 
   socket.on('renameChannel', (payload) => {
-    store.dispatch(channelsActions
-      .renameChannel({ id: payload.id, changes: { name: payload.name } }))
+    store.dispatch(channelsApi.util.updateQueryData('getChannels', undefined, (draft) => draft.map((item) => ((item.id === payload.id)
+      ? { ...payload } : item))))
   })
 
   socket.on('removeChannel', (payload) => {
-    store.dispatch(channelsActions.removeChannel(payload.id))
+    store.dispatch(channelsApi.util.updateQueryData('getChannels', undefined, (draft) => draft.filter((item) => item.id !== payload.id)))
+    store.dispatch(messagesApi.util.updateQueryData('getMessages', undefined, (draft) => draft.filter((item) => item.channelId !== payload.id)))
   })
 
-  return (
-    <Provider store={store}>
-      <AuthProvider>
-        <FilterProvider>
-          <I18nextProvider i18n={i18n}>
-            <RollbarProvider config={rollbarConfig}>
-              <App />
-            </RollbarProvider>
-          </I18nextProvider>
-        </FilterProvider>
-      </AuthProvider>
-    </Provider>
-  )
+  socket.on('newMessage', (payload) => {
+    store.dispatch(messagesApi.util.updateQueryData('getMessages', undefined, (draft) => [...draft, payload]));
+  })
+
+  return (<App store={store} />)
 }
 
 export default init
