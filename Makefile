@@ -1,8 +1,17 @@
 install:
-	cd app && npm ci
+	npm ci
 
 build:
-	cd app && npm run build
+	rm -rf app/dist
+	npm run build
 
+start-backend:
+	npm run start
 start:
-	cd app && npx start-server -s ./dist
+	make start-backend
+
+develop:
+	npm run develop
+
+preview:
+	npm run preview
