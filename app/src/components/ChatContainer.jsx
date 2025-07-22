@@ -1,16 +1,16 @@
-import { useTranslation } from 'react-i18next';
-import { useSelector } from 'react-redux';
-import { useGetMessagesQuery } from '../redux/store/messagesApi.js';
-import MessageForm from './MessageForm.jsx';
-import { useGetChannelsQuery } from '../redux/store/channelsApi.js';
+import { useTranslation } from 'react-i18next'
+import { useSelector } from 'react-redux'
+import { useGetMessagesQuery } from '../slices/messagesApi.js'
+import MessageForm from './MessageForm.jsx'
+import { useGetChannelsQuery } from '../slices/channelsApi.js'
 
 const ChatContainer = () => {
-  const { currentChannelId } = useSelector((state) => state.ui);
-  const { data: messages = [] } = useGetMessagesQuery();
-  const { t } = useTranslation();
-  const channels = useGetChannelsQuery().data || [];
-  const currentChannelName = channels.find((channel) => channel.id === currentChannelId)?.name;
-  const currentMessages = messages.filter((message) => message.channelId === currentChannelId);
+  const { currentChannelId } = useSelector((state) => state.ui)
+  const { data: messages = [] } = useGetMessagesQuery()
+  const { t } = useTranslation()
+  const channels = useGetChannelsQuery().data || []
+  const currentChannelName = channels.find((channel) => channel.id === currentChannelId)?.name
+  const currentMessages = messages.filter((message) => message.channelId === currentChannelId)
 
   return (
     <div className="col p-0 h-100">
@@ -35,4 +35,4 @@ const ChatContainer = () => {
   );
 };
 
-export default ChatContainer;
+export default ChatContainer

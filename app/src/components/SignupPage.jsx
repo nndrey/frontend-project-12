@@ -1,32 +1,32 @@
 import {
   Card, Form, FloatingLabel, Button,
-} from 'react-bootstrap';
-import { useEffect, useRef } from 'react';
-import { useFormik } from 'formik';
-import { useNavigate } from 'react-router-dom';
-import * as yup from 'yup';
-import cn from 'classnames';
-import { useTranslation } from 'react-i18next';
-import { toast } from 'react-toastify';
-import axios from 'axios';
-import signupAvatar from '../assets/signup-avatar.jpg';
-import routes from '../routes.js';
-import useAuth from '../hook/useAuth.js';
+} from 'react-bootstrap'
+import { useEffect, useRef } from 'react'
+import { useFormik } from 'formik'
+import { useNavigate } from 'react-router-dom'
+import * as yup from 'yup'
+import cn from 'classnames'
+import { useTranslation } from 'react-i18next'
+import { toast } from 'react-toastify'
+import axios from 'axios'
+import signupAvatar from '../assets/signup-avatar.jpg'
+import routes from '../routes.js'
+import useAuth from '../hook/useAuth.js'
 
 const SignupPage = () => {
-  const inputNameRef = useRef();
-  const navigate = useNavigate();
-  const { logIn } = useAuth();
+  const inputNameRef = useRef()
+  const navigate = useNavigate()
+  const { logIn } = useAuth()
   useEffect(() => {
-    inputNameRef.current.focus();
-  }, []);
-  const { t } = useTranslation();
+    inputNameRef.current.focus()
+  }, [])
+  const { t } = useTranslation()
 
   const validationSchema = yup.object({
     username: yup.string().min(3, t('errors.min3max20')).max(20, t('errors.min3max20')).required(t('errors.required')),
     password: yup.string().min(6, t('errors.min6')).required(t('errors.required')),
     confirmPassword: yup.string().oneOf([yup.ref('password'), null], t('errors.oneOf')).required(t('errors.required')),
-  });
+  })
 
   const formik = useFormik({
     initialValues: {
@@ -44,20 +44,20 @@ const SignupPage = () => {
         );
         const { username, token } = response.data;
         logIn(username, token);
-        navigate(routes.mainPagePath(), { replace: true });
+        navigate(routes.mainPagePath(), { replace: true })
       } catch (error) {
         if (!error.isAxiosError) {
-          toast(t('toast.unknownError'), { type: 'error' });
-          return;
+          toast(t('toast.unknownError'), { type: 'error' })
+          return
         }
         if (error.status === 409) {
-          formik.setErrors({ username: t('errors.userExists') });
+          formik.setErrors({ username: t('errors.userExists') })
           return;
         }
-        toast(t('toast.networkError', { type: 'error' }));
+        toast(t('toast.networkError', { type: 'error' }))
       }
     },
-  });
+  })
 
   return (
     <div className="container-fluid h-100">
@@ -140,7 +140,7 @@ const SignupPage = () => {
         </div>
       </div>
     </div>
-  );
-};
+  )
+}
 
-export default SignupPage;
+export default SignupPage

@@ -1,14 +1,14 @@
-import { useDispatch } from 'react-redux';
-import { Button } from 'react-bootstrap';
-import { useTranslation } from 'react-i18next';
-import ChatContainer from './ChatContainer.jsx';
-import ModalWindow from './ModalWindow.jsx';
-import ChannelsList from './ChannelsList.jsx';
-import { openModal } from '../redux/store/uiSlice.js';
+import { useDispatch } from 'react-redux'
+import { Button } from 'react-bootstrap'
+import { useTranslation } from 'react-i18next'
+import ChatContainer from './ChatContainer.jsx'
+import ModalWindow from './ModalWindow.jsx'
+import ChannelsList from './ChannelsList.jsx'
+import { openModal } from '../slices/uiSlice.js'
 
 const MainPage = () => {
-  const dispatch = useDispatch();
-  const { t } = useTranslation();
+  const dispatch = useDispatch()
+  const { t } = useTranslation()
 
   return (
     <>
@@ -42,7 +42,7 @@ const MainPage = () => {
       </div>
       <ModalWindow />
     </>
-  );
-};
+  )
+}
 
-export default MainPage;
+export default MainPage

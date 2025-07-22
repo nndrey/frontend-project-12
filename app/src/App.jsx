@@ -1,7 +1,5 @@
 import { ToastContainer } from 'react-toastify'
-import {
-  Route, Routes, BrowserRouter, Outlet,
-} from 'react-router'
+import { Route, Routes, BrowserRouter, Outlet } from 'react-router-dom'
 import { Provider } from 'react-redux'
 import { Provider as RollbarProvider, ErrorBoundary } from '@rollbar/react'
 import RequireAuth from './components/RequireAuth.jsx'

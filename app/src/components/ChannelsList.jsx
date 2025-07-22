@@ -1,39 +1,39 @@
 import {
   Button, ButtonGroup, Dropdown, DropdownButton, Nav,
-} from 'react-bootstrap';
-import { useDispatch, useSelector } from 'react-redux';
-import cn from 'classnames';
-import { useTranslation } from 'react-i18next';
-import { useEffect } from 'react';
-import { toast } from 'react-toastify';
-import { useNavigate } from 'react-router-dom';
-import { openModal, setCurrentChannelId } from '../redux/store/uiSlice.js';
-import { useGetChannelsQuery } from '../redux/store/channelsApi.js';
-import useAuth from '../hook/useAuth.js';
+} from 'react-bootstrap'
+import { useDispatch, useSelector } from 'react-redux'
+import cn from 'classnames'
+import { useTranslation } from 'react-i18next'
+import { useEffect } from 'react'
+import { toast } from 'react-toastify'
+import { useNavigate } from 'react-router-dom'
+import { openModal, setCurrentChannelId } from '../slices/uiSlice.js'
+import { useGetChannelsQuery } from '../slices/channelsApi.js'
+import useAuth from '../hook/useAuth.js'
 
 const ChannelsList = () => {
-  const dispatch = useDispatch();
-  const { currentChannelId } = useSelector((state) => state.ui);
-  const truncateClass = (channel) => cn({ 'text-truncate': channel.removable });
-  const { data: channels = [], error: channelsError } = useGetChannelsQuery();
-  const navigate = useNavigate();
-  const { signOut } = useAuth();
-  const { t } = useTranslation();
+  const dispatch = useDispatch()
+  const { currentChannelId } = useSelector((state) => state.ui)
+  const truncateClass = (channel) => cn({ 'text-truncate': channel.removable })
+  const { data: channels = [], error: channelsError } = useGetChannelsQuery()
+  const navigate = useNavigate()
+  const { signOut } = useAuth()
+  const { t } = useTranslation()
 
   useEffect(() => {
     if (channelsError) {
       switch (channelsError.status) {
         case 401:
-          signOut();
+          signOut()
           break;
         case 500:
-          toast.error(t('toast.serverError'));
-          break;
+          toast.error(t('toast.serverError'))
+          break
         default:
-          console.log(channelsError);
+          console.log(channelsError)
       }
     }
-  }, [channelsError, navigate, t, signOut]);
+  }, [channelsError, navigate, t, signOut])
 
   return (
     <Nav className="flex-column nav-pills nav-fill px-2 mb3 overflow-auto h-100 d-block">
@@ -48,7 +48,7 @@ const ChannelsList = () => {
             <span className="me-1">#</span>
             {channel.name}
           </Button>
-        );
+        )
 
         return (
           <Nav.Item key={channel.id} className="w-100">
@@ -84,7 +84,7 @@ const ChannelsList = () => {
         );
       })}
     </Nav>
-  );
-};
+  )
+}
 
-export default ChannelsList;
+export default ChannelsList

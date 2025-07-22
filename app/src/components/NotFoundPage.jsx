@@ -1,10 +1,10 @@
-import React from 'react';
-import { useTranslation } from 'react-i18next';
-import notFound from '../assets/404.svg';
-import routes from '../routes.js';
+import React from 'react'
+import { useTranslation } from 'react-i18next'
+import notFound from '../assets/404.svg'
+import routes from '../routes.js'
 
 const NotFoundPage = () => {
-  const { t } = useTranslation();
+  const { t } = useTranslation()
   return (
     <div className="text-center">
       <img alt={t('notFoundPage.title')} className="img-fluid h-25" src={notFound} />
@@ -15,6 +15,6 @@ const NotFoundPage = () => {
       </p>
     </div>
 
-  );
-};
-export default NotFoundPage;
+  )
+}
+export default NotFoundPage

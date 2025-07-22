@@ -1,47 +1,47 @@
-import { Button, Form, InputGroup } from 'react-bootstrap';
-import { useFormik } from 'formik';
-import filter from 'leo-profanity';
-import { toast } from 'react-toastify';
-import { useTranslation } from 'react-i18next';
-import { useEffect, useRef } from 'react';
-import { useSelector } from 'react-redux';
-import { useAddMessageMutation } from '../redux/store/messagesApi.js';
-import useAuth from '../hook/useAuth.js';
+import { Button, Form, InputGroup } from 'react-bootstrap'
+import { useFormik } from 'formik'
+import filter from 'leo-profanity'
+import { toast } from 'react-toastify'
+import { useTranslation } from 'react-i18next'
+import { useEffect, useRef } from 'react'
+import { useSelector } from 'react-redux'
+import { useAddMessageMutation } from '../slices/messagesApi.js'
+import useAuth from '../hook/useAuth.js'
 
 const MessageForm = () => {
-  const { t } = useTranslation();
-  const [addMassage] = useAddMessageMutation();
-  const { logOut, username } = useAuth();
-  const inputRef = useRef({});
+  const { t } = useTranslation()
+  const [addMassage] = useAddMessageMutation()
+  const { logOut, username } = useAuth()
+  const inputRef = useRef({})
   const {
     currentChannelId,
     modal: { isOpen },
-  } = useSelector((state) => state.ui);
+  } = useSelector((state) => state.ui)
 
-  useEffect(() => { inputRef.current.focus(); }, [isOpen]);
+  useEffect(() => { inputRef.current.focus(); }, [isOpen])
 
   const formik = useFormik({
     initialValues: { body: '' },
     onSubmit: async (values, { resetForm }) => {
       try {
         const message = filter.clean(values.body.trim());
-        await addMassage({ body: message, channelId: currentChannelId, username }).unwrap();
-        resetForm();
+        await addMassage({ body: message, channelId: currentChannelId, username }).unwrap()
+        resetForm()
       } catch (error) {
         switch (error.status) {
           case 401:
-            logOut();
-            break;
+            logOut()
+            break
           case 500:
-            toast.error(t('toast.serverError'));
-            break;
+            toast.error(t('toast.serverError'))
+            break
           default:
-            toast.error(t('toast.unknownError'));
-            console.log(error);
+            toast.error(t('toast.unknownError'))
+            console.log(error)
         }
       }
     },
-  });
+  })
 
   return (
     <div className="mt-auto px-5 py-3">
@@ -75,7 +75,7 @@ const MessageForm = () => {
         </InputGroup>
       </Form>
     </div>
-  );
-};
+  )
+}
 
-export default MessageForm;
+export default MessageForm
