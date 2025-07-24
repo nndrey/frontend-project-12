@@ -4,11 +4,16 @@
   "description": "chat slack project",
   "main": "index.js",
   "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
     "build": "npm run build --prefix app",
     "start": "start-server -s ./app/dist",
-    "test": "echo \"Error: no test specified\" && exit 1",
-    "postinstall": "cd app && npm ci"
+    "postinstall": "cd app && npm ci",
+    "develop": "cd app && npm run dev",
+    "preview": "npm run preview --prefix app"
   },
   "author": "Andrey",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "@hexlet/chat-server": "^2.0.4"
+  }
 }

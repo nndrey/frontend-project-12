@@ -2,7 +2,7 @@ install:
 	npm ci
 
 build:
-	rm -rf app/dist
+	rm -rf frontend/dist
 	npm run build
 
 start-backend:
