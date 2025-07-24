@@ -19,8 +19,8 @@ const MessageForm = () => {
   } = useSelector(state => state.ui)
 
   useEffect(() => {
-  inputRef.current.focus()
-}, [isOpen])
+    inputRef.current.focus()
+  }, [isOpen])
 
   const formik = useFormik({
     initialValues: { body: '' },

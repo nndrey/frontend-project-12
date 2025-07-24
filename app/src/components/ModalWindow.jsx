@@ -91,7 +91,7 @@ const RemovingModalWindow = () => {
     currentChannelId,
     defaultChannelId,
     modal: { isOpen, extra },
-  } = useSelector((state) => state.ui)
+  } = useSelector(state => state.ui)
   const dispatch = useDispatch()
   const [removeChannel] = useRemoveChannelMutation()
 
@@ -104,7 +104,8 @@ const RemovingModalWindow = () => {
       }
       dispatch(closeModal())
       toast(t('toast.channelRemoved'), { type: 'success' })
-    } catch (error) {
+    }
+    catch {
       toast(t('toast.networkError'), { type: 'error' })
     }
   }
