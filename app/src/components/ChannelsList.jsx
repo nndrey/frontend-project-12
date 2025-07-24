@@ -54,36 +54,36 @@ const ChannelsList = () => {
           <Nav.Item key={channel.id} className="w-100">
             {
               !channel.removable
-                ? btnElem 
+                ? btnElem
                 : (
-                  <ButtonGroup className="d-flex dropdown">
-                    {btnElem}
-                    <DropdownButton
-                      variant={channel.id === currentChannelId ? 'secondary' : 'light'}
-                      as={ButtonGroup}
-                      title={<span className="visually-hidden">{t('mainPage.manage')}</span>}
-                      id="dropdownButton"
-                    >
-                      <Dropdown.Item
-                        onClick={() => dispatch(openModal({ type: 'removeChannel', channelId: channel.    id }))}
-                        className="btn btn-secondary"
+                    <ButtonGroup className="d-flex dropdown">
+                      {btnElem}
+                      <DropdownButton
+                        variant={channel.id === currentChannelId ? 'secondary' : 'light'}
+                        as={ButtonGroup}
+                        title={<span className="visually-hidden">{t('mainPage.manage')}</span>}
+                        id="dropdownButton"
                       >
-                        {t('mainPage.remove')}
-                      </Dropdown.Item>
-                      <Dropdown.Item
-                        onClick={() => dispatch(openModal({
-                          type: 'renameChannel',
-                          channelId: channel.id,
-                          channelName: channel.name,
-                        }))}
-                        className="btn btn-secondary"
-                      >
-                        {t('mainPage.rename')}
-                      </Dropdown.Item>
-                    </DropdownButton>
-                  </ButtonGroup>
-                  )
-                }
+                        <Dropdown.Item
+                          onClick={() => dispatch(openModal({ type: 'removeChannel', channelId:   channel.id }))}
+                          className="btn btn-secondary"
+                        >
+                          {t('mainPage.remove')}
+                        </Dropdown.Item>
+                        <Dropdown.Item
+                          onClick={() => dispatch(openModal({
+                            type: 'renameChannel',
+                            channelId: channel.id,
+                            channelName: channel.name,
+                          }))}
+                          className="btn btn-secondary"
+                        >
+                          {t('mainPage.rename')}
+                        </Dropdown.Item>
+                      </DropdownButton>
+                    </ButtonGroup>
+                    )
+            }
           </Nav.Item>
         )
       })}
