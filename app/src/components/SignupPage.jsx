@@ -41,18 +41,19 @@ const SignupPage = () => {
         const response = await axios.post(
           routes.createUserUrl(),
           { username: values.username, password: values.password },
-        );
-        const { username, token } = response.data;
-        logIn(username, token);
+        )
+        const { username, token } = response.data
+        logIn(username, token)
         navigate(routes.mainPagePath(), { replace: true })
-      } catch (error) {
+      }
+      catch (error) {
         if (!error.isAxiosError) {
           toast(t('toast.unknownError'), { type: 'error' })
           return
         }
         if (error.status === 409) {
           formik.setErrors({ username: t('errors.userExists') })
-          return;
+          return
         }
         toast(t('toast.networkError', { type: 'error' }))
       }

@@ -16,18 +16,21 @@ const MessageForm = () => {
   const {
     currentChannelId,
     modal: { isOpen },
-  } = useSelector((state) => state.ui)
+  } = useSelector(state => state.ui)
 
-  useEffect(() => { inputRef.current.focus(); }, [isOpen])
+  useEffect(() => {
+  inputRef.current.focus()
+}, [isOpen])
 
   const formik = useFormik({
     initialValues: { body: '' },
     onSubmit: async (values, { resetForm }) => {
       try {
-        const message = filter.clean(values.body.trim());
+        const message = filter.clean(values.body.trim())
         await addMassage({ body: message, channelId: currentChannelId, username }).unwrap()
         resetForm()
-      } catch (error) {
+      }
+      catch (error) {
         switch (error.status) {
           case 401:
             logOut()

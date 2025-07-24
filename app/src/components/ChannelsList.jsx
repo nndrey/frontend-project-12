@@ -13,8 +13,8 @@ import useAuth from '../hook/useAuth.js'
 
 const ChannelsList = () => {
   const dispatch = useDispatch()
-  const { currentChannelId } = useSelector((state) => state.ui)
-  const truncateClass = (channel) => cn({ 'text-truncate': channel.removable })
+  const { currentChannelId } = useSelector(state => state.ui)
+  const truncateClass = channel => cn({ 'text-truncate': channel.removable })
   const { data: channels = [], error: channelsError } = useGetChannelsQuery()
   const navigate = useNavigate()
   const { signOut } = useAuth()
@@ -25,7 +25,7 @@ const ChannelsList = () => {
       switch (channelsError.status) {
         case 401:
           signOut()
-          break;
+          break
         case 500:
           toast.error(t('toast.serverError'))
           break
@@ -52,7 +52,9 @@ const ChannelsList = () => {
 
         return (
           <Nav.Item key={channel.id} className="w-100">
-            {!channel.removable ? btnElem : (
+            {
+              !channel.removable 
+              ? btnElem : (
               <ButtonGroup className="d-flex dropdown">
                 {btnElem}
                 <DropdownButton
@@ -81,7 +83,7 @@ const ChannelsList = () => {
               </ButtonGroup>
             )}
           </Nav.Item>
-        );
+        )
       })}
     </Nav>
   )

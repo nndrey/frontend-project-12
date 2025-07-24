@@ -2,8 +2,8 @@ import { useFormik } from 'formik'
 import { useState } from 'react'
 import {
   Card, Form, FloatingLabel, Button,
-} from 'react-bootstrap';
-import { useNavigate, useLocation, Link } from 'react-router-dom';
+} from 'react-bootstrap'
+import { useNavigate, useLocation, Link } from 'react-router-dom'
 import cn from 'classnames'
 import { useTranslation } from 'react-i18next'
 import { toast } from 'react-toastify'
@@ -15,7 +15,7 @@ import routes from '../routes.js'
 const LoginPage = () => {
   const navigate = useNavigate()
   const location = useLocation()
-  const [authFailed, setAuthFailed] = useState(false);
+  const [authFailed, setAuthFailed] = useState(false)
   const fromPage = location.state?.from?.pathname || routes.mainPagePath()
   const { t } = useTranslation()
   const { logIn } = useAuth()
@@ -26,21 +26,22 @@ const LoginPage = () => {
       password: '',
     },
     onSubmit: async (values) => {
-      setAuthFailed(false);
+      setAuthFailed(false)
       try {
         const response = await axios.post(routes.loginUrl(), values)
         const responseToken = response.data.token
         const { username } = response.data
         logIn(username, responseToken)
         navigate(fromPage, { replace: true })
-      } catch (error) {
+      }
+      catch (error) {
         if (!error.isAxiosError) {
           toast(t('toast.unknownError'), { type: 'error' })
           return
         }
         if (error.status === 401) {
           setAuthFailed(true)
-          return;
+          return
         }
         toast(t('toast.networkError'), { type: 'error' })
       }
@@ -68,8 +69,8 @@ const LoginPage = () => {
                     placeholder={t('loginPage.username')}
                     value={formik.values.username}
                     onChange={(e) => {
-                      setAuthFailed(false);
-                      formik.handleChange(e);
+                      setAuthFailed(false)
+                      formik.handleChange(e)
                     }}
                   />
                 </FloatingLabel>
