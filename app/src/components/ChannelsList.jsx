@@ -65,7 +65,7 @@ const ChannelsList = () => {
                         id="dropdownButton"
                       >
                         <Dropdown.Item
-                          onClick={() => dispatch(openModal({ type: 'removeChannel', channelId:   channel.id }))}
+                          onClick={() => dispatch(openModal({ type: 'removeChannel', channelId: channel.id }))}
                           className="btn btn-secondary"
                         >
                           {t('mainPage.remove')}
@@ -82,7 +82,7 @@ const ChannelsList = () => {
                         </Dropdown.Item>
                       </DropdownButton>
                     </ButtonGroup>
-                    )
+                  )
             }
           </Nav.Item>
         )

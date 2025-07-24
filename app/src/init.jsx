@@ -31,9 +31,9 @@ const init = async () => {
         draft.map(item =>
           item.id === payload.id
             ? { ...payload }
-            : item
-        )
-      )
+            : item,
+        ),
+      ),
     )
   })
 
