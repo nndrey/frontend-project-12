@@ -10,7 +10,8 @@ import { useTranslation } from 'react-i18next'
 import { toast } from 'react-toastify'
 import axios from 'axios'
 import signupAvatar from '../assets/signup-avatar.jpg'
-import routes from '../routes.js'
+import { mainPagePath } from '../routes.js'
+import { createUserUrl } from '../endpoints.js'
 import useAuth from '../hook/useAuth.js'
 
 const SignupPage = () => {
@@ -39,12 +40,12 @@ const SignupPage = () => {
     onSubmit: async (values) => {
       try {
         const response = await axios.post(
-          routes.createUserUrl(),
+          createUserUrl(),
           { username: values.username, password: values.password },
         )
         const { username, token } = response.data
         logIn(username, token)
-        navigate(routes.mainPagePath(), { replace: true })
+        navigate(mainPagePath(), { replace: true })
       }
       catch (error) {
         if (!error.isAxiosError) {

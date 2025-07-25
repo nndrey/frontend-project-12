@@ -1,10 +1,10 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import routs from '../routes.js'
+import { channelsUrl } from '../endpoints'
 
 export const channelsApi = createApi({
   reducerPath: 'channelsApi',
   baseQuery: fetchBaseQuery({
-    baseUrl: routs.channelsUrl(),
+    baseUrl: channelsUrl(),
     prepareHeaders: (headers, { getState }) => {
       const { token } = getState().auth
       headers.set('Authorization', `Bearer ${token}`)

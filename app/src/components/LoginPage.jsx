@@ -10,13 +10,14 @@ import { toast } from 'react-toastify'
 import axios from 'axios'
 import loginAvatar from '../assets/login-avatar.jpg'
 import useAuth from '../hook/useAuth.js'
-import routes from '../routes.js'
+import { mainPagePath } from '../routes.js'
+import { loginUrl } from '../endpoints.js'
 
 const LoginPage = () => {
   const navigate = useNavigate()
   const location = useLocation()
   const [authFailed, setAuthFailed] = useState(false)
-  const fromPage = location.state?.from?.pathname || routes.mainPagePath()
+  const fromPage = location.state?.from?.pathname || mainPagePath()
   const { t } = useTranslation()
   const { logIn } = useAuth()
 
@@ -28,7 +29,7 @@ const LoginPage = () => {
     onSubmit: async (values) => {
       setAuthFailed(false)
       try {
-        const response = await axios.post(routes.loginUrl(), values)
+        const response = await axios.post(loginUrl(), values)
         const responseToken = response.data.token
         const { username } = response.data
         logIn(username, responseToken)

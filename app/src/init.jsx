@@ -1,7 +1,7 @@
 import filter from 'leo-profanity'
 import io from 'socket.io-client'
 import startI18n from './locale/i18next.js'
-import routes from './routes.js'
+import { mainPagePath } from './routes.js'
 import createStore from './slices/store.js'
 import { channelsApi } from './slices/channelsApi.js'
 import { messagesApi } from './slices/messagesApi.js'
@@ -13,7 +13,7 @@ const init = async () => {
   filter.loadDictionary('en')
   await startI18n()
   const store = createStore()
-  const socket = io(routes.appUrl())
+  const socket = io(mainPagePath())
 
   const userData = JSON.parse(localStorage.getItem('user'))
 

@@ -10,7 +10,7 @@ import MainPage from './components/MainPage.jsx'
 import SignupPage from './components/SignupPage.jsx'
 import './locale/i18next.js'
 import rollbarConfig from '../rollbar.config.js'
-import routes from './routes.js'
+import { mainPagePath, loginPagePath, signUpPagePath } from './routes.js'
 
 const App = ({ store }) => (
   <RollbarProvider config={rollbarConfig}>
@@ -20,16 +20,16 @@ const App = ({ store }) => (
         <BrowserRouter>
           <Routes>
             <Route element={<Layout><Outlet /></Layout>}>
-              <Route path={routes.loginPagePath()} element={<LoginPage />} />
+              <Route path={loginPagePath()} element={<LoginPage />} />
               <Route
-                path={routes.mainPagePath()}
+                path={mainPagePath()}
                 element={(
                   <RequireAuth>
                     <MainPage />
                   </RequireAuth>
                 )}
               />
-              <Route path={routes.signUpPagePath()} element={<SignupPage />} />
+              <Route path={signUpPagePath()} element={<SignupPage />} />
               <Route path="*" element={<NotFoundPage />} />
             </Route>
           </Routes>
